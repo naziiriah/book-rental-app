@@ -26,6 +26,8 @@ const Header = () => {
                 <Box as ={'h1'} 
                     textTransform={'uppercase'}
                     color={'#fff'}
+                    textAlign="center"
+                    ml="4rem"
                     height={'4rem'}
                     fontSize={'23px'}>
                     Book rental<Text as ={'span'} textTransform={'lowercase'}>.com</Text>
