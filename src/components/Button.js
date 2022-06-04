@@ -1,7 +1,9 @@
 import { Button,Icon } from "@chakra-ui/react";
 import { IoIosLogIn, IoIosLogOut} from "react-icons/io";
 import { VscSignIn } from "react-icons/vsc";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { logoutUser } from "../features/Authentication/authSlice";
 
 
 
@@ -27,15 +29,31 @@ export  const SignUp = () => {
 }
 
 export const LogOut = () => {
-
+    
+    const Dispatch = useDispatch(),
+    navigation = useNavigate();
+    
+    function LogOut(){  
+        Dispatch(logoutUser())
+        navigation('/')
+    }    
     return(
-        <Button>
+        <Button onClick={LogOut}> 
             Log out
             <Icon as ={IoIosLogOut} ml={'.7rem'}/>
         </Button>
     )
 }
 
-export const Addbook = () => {
+export const AddButton = () => {
+    const navigate = useNavigate()
 
+    return(
+        <Button 
+            colorScheme={'twitter'} 
+            textTransform="capitalize"
+            onClick={() => navigate('/add-book')}>
+            add book
+        </Button>
+    )
 }

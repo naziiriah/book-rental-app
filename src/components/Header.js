@@ -1,6 +1,7 @@
 import { Box, Icon, Text } from "@chakra-ui/react"
 import { Login, LogOut, SignUp } from "./Button"
-import { GiWhiteBook } from "react-icons/gi"
+import { GiBookshelf } from 'react-icons/gi'
+import MenuSlider from "./Drawer"
 
 const Header = () => {
 
@@ -18,19 +19,23 @@ const Header = () => {
                 <Box as= {'h1'}
                     color={'#fff'}>
 
-                    <Icon mr={'.1rem'}
-                         fontSize ={'2.5rem'}
-                         as ={GiWhiteBook}/>
+                    <MenuSlider/>
                 </Box>
 
-                <Box as ={'h1'} 
-                    textTransform={'uppercase'}
+                <Box display={'flex'}>
+                    <Icon fontSize ={'2.5rem'}
+                    mt={"-0.2rem"}
                     color={'#fff'}
-                    textAlign="center"
-                    ml="4rem"
-                    height={'4rem'}
-                    fontSize={'23px'}>
-                    Book rental<Text as ={'span'} textTransform={'lowercase'}>.com</Text>
+                    as={GiBookshelf}/>
+                    <Box as ={'h1'} 
+                        textTransform={'uppercase'}
+                        color={'#fff'}
+                        textAlign="center"
+                        ml="1rem"
+                        height={'4rem'}
+                        fontSize={'23px'}>
+                        The great Book Shelf<Text as ={'span'} textTransform={'lowercase'}>.com</Text>
+                </Box>
                 </Box>
                 
                 {
@@ -41,8 +46,8 @@ const Header = () => {
                             <Login/>
                             <SignUp/>
                     </Box> :
-                     <Box display={'flex'}
-                     width="16rem">
+                     <Box 
+                     width="10rem">
                        <LogOut/>
                      </Box>
                 }

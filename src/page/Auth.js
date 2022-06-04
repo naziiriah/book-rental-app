@@ -1,11 +1,12 @@
 import Header from "../components/Header"
-import { Box, FormControl, FormLabel, Input, FormErrorMessage, Button } from "@chakra-ui/react"
+import { Box, FormControl, FormLabel, Input, FormErrorMessage, Button, Spinner } from "@chakra-ui/react"
 import { useFormik } from "formik"
 import * as Yup from "yup"
 import { useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
-import { registerUser, reset } from "../features/Authentication/authSlice"
+import { loginUser, registerUser, reset } from "../features/Authentication/authSlice"
+import Footer from "../components/Footer"
 
 
 
@@ -33,17 +34,17 @@ export const Setuser = () => {
                 email: values.email,
                 password: values.password
             }
-            console.log(JSON.parse(userData))
-            // Dispatch(registerUser(userData))
+            // console.log(JSON.parse(userData))
+            Dispatch(registerUser(userData))
         }
     }),
     Dispatch = useDispatch(),
-    {user, isError, isSuccess, } = useSelector((state) => state.auth);
+    {user, isError, isSuccess, isLoading } = useSelector((state) => state.auth);
 
 
     useEffect(()=> {
         if(isError){
-            console.log(isError)
+            console.log({'isError': `${isError}`})
         }
 
         if(isSuccess || user){
@@ -54,6 +55,9 @@ export const Setuser = () => {
 
     }, [Dispatch, isError, isSuccess, navigate, user])
 
+        if(isLoading){
+            <Spinner/>
+        }
 
 
     return(
@@ -119,6 +123,7 @@ export const Setuser = () => {
                     </Box>
                     </Box>  
             </Box>
+            <Footer/>
         </>
     )
 }
@@ -127,7 +132,7 @@ export const Loginuser = () => {
 
     const navigate = useNavigate(),
     Dispatch = useDispatch(),
-    {user, isError, isSuccess,} = useSelector(state => state.auth),
+    {user, isError, isSuccess,isLoading} = useSelector(state => state.auth),
     Formik = useFormik({
         initialValues:{
             password: "",
@@ -145,13 +150,13 @@ export const Loginuser = () => {
                 email: values.email,
                 password: values.password
             }
-            console.log(JSON.stringify(userData))
+            Dispatch(loginUser(userData))
         }
     })
 
     useEffect(()=> {
         if(isError){
-            console.log(isError)
+            console.log({'isError': `${isError}`})
         }
 
         if(isSuccess || user){
@@ -161,6 +166,11 @@ export const Loginuser = () => {
         Dispatch(reset())
 
     }, [Dispatch, isError, isSuccess, navigate, user])
+
+    if(isLoading){
+        <Spinner/>
+    }
+
 
     return(
         <>
@@ -201,8 +211,7 @@ export const Loginuser = () => {
                     {Formik.touched.password && Formik.errors.password ? 
                     <FormErrorMessage>{Formik.errors.password}</FormErrorMessage> : null}
 
-                    <Button
-                        
+                    <Button 
                         mt="1rem"
                         colorScheme='blue'
                         type='submit'>
@@ -210,10 +219,10 @@ export const Loginuser = () => {
                     </Button>
                 </FormControl>
             </form>
-
-                    </Box>
-                    </Box>  
             </Box>
+            </Box>  
+            </Box>
+            <Footer/>
         </>
     )
     
