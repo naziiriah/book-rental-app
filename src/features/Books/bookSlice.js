@@ -14,10 +14,11 @@ export const getAllBooks = createAsyncThunk(
     'book/allBooks',
     async(user, thunkAPI )=>{
         try{
+          
             return bookService.getAllBooks()
         }catch(error){
             const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString() 
-            return thunkAPI.rejectWithValue(message)      
+            return await thunkAPI.rejectWithValue(message)      
         }
     },
 )
@@ -26,7 +27,8 @@ export const getMyBooks = createAsyncThunk(
     'book/myBooks',
     async(user, thunkAPI) =>{
       try{
-            return bookService.getMyBooks()
+        const token = thunkAPI.getState().auth.user.token
+            return await bookService.getMyBooks(token)
       }
       catch(error){
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString() 
@@ -36,11 +38,12 @@ export const getMyBooks = createAsyncThunk(
 )
 
 
-export const AddBook = createAsyncThunk(
+export const AddBooks = createAsyncThunk(
     'book/addBooks',
-    async(user, thunkAPI) =>{
+    async(bookData, thunkAPI) =>{
       try{
-            return bookService.addBooks()
+            const token = thunkAPI.getState().auth.user.token
+            return await bookService.addBooks(bookData, token)
       }
       catch(error){
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString() 
@@ -53,7 +56,7 @@ export const EditBook = createAsyncThunk(
     'book/editBooks',
     async(user, thunkAPI) =>{
       try{
-            return bookService.editBook()
+            return await bookService.editBook()
       }
       catch(error){
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString() 
@@ -66,7 +69,7 @@ export const DeleteBook = createAsyncThunk(
     'book/deleteBooks',
     async(user, thunkAPI) =>{
       try{
-            return bookService.deleteBook()
+            return await bookService.deleteBook()
       }
       catch(error){
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString() 
@@ -82,6 +85,35 @@ export const BookSlice = createSlice({
             reset: () => initialState
     },
     extraReducers: (builders) =>{
+        builders
+          .addCase(AddBooks.pending, state => {
+              state.isLoading = true
+            })
+            .addCase(AddBooks.fulfilled, (state, action) => {
+              state.isLoading = false
+              state.isSuccess = true
+              state.books.push(action.payload)
+            })
+            .addCase(AddBooks.rejected, (state, action) => {
+              state.isLoading = false
+              state.isError = true
+              state.isSuccess = false
+              state.message = action.payload
+            })
+          .addCase( getAllBooks.fulfilled, 
+            (state, action )=> {
+              state.isLoading = false
+              state.isError = false
+              state.isSuccess = true
+              state.books = action.payload
+            })
+            .addCase( getMyBooks.fulfilled, 
+              (state, action )=> {
+                state.isLoading = false
+                state.isError = false
+                state.isSuccess = true
+                state.books = action.payload
+              })
 
     }
 })

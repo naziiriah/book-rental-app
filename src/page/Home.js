@@ -1,22 +1,25 @@
 import { Box } from "@chakra-ui/react"
-import { useEffect, useState } from "react"
+import { useEffect, } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { AddButton } from "../components/Button"
 import Footer from "../components/Footer"
 import Header from "../components/Header"
+import { getAllBooks } from "../features/Books/bookSlice"
 
 
 const Home = () => {
     const navigate = useNavigate(),
-    [Books, setBooks] = useState([])
+    dispatch = useDispatch(),
+    bookFile = useSelector((state) => state.books);
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('user'));
         if(!user){
             navigate('/login')           
         }   
-
-    })
-
+        dispatch(getAllBooks())
+    }, [dispatch, navigate])
+    
     return(
         <>
             <Header/>
@@ -31,7 +34,7 @@ const Home = () => {
                 </Box>
                 <Box as="section"
                     width="100%"
-                    bgColor="red" height="60rem" >
+                    bgColor="red" height="60rem" onClick={() => console.log(bookFile.books)}>
                     
                 </Box>
             </Box>

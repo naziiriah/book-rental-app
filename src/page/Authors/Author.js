@@ -10,9 +10,9 @@ const Author = () => {
     {books} = useSelector((state) => state.books ),
     [authrBooks, setauthrBooks] = useState([]);
 
-    useEffect(() => {
-         setauthrBooks(books.filter((book) => book.author === author))
-    }, [books, author])
+    // useEffect(() => {
+    //     //  setauthrBooks(books.filter((book) => book.author === author))
+    // }, [books, author])
     
     return(
         <>
