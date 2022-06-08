@@ -1,107 +1,120 @@
-import { Box, Input, Button, FormLabel, FormControl } from "@chakra-ui/react"
-import Footer from "../components/Footer"
 import Header from "../components/Header"
-import { useState } from "react"
+import { Box, FormControl, FormLabel, Input, FormErrorMessage, Button } from "@chakra-ui/react"
+import { useFormik } from "formik"
+import * as Yup from "yup"
 import { useDispatch } from "react-redux"
+
 import { AddBooks } from "../features/Books/bookSlice"
+import Footer from "../components/Footer"
 
 
 
-const AddBook = () => {
-    const [title, setTitle] = useState(''),
-    [author, setAuthor] = useState(''),
-    [ISBN,setISBN] = useState(''),
-    [price, setPrice] = useState(0),
-    [image,setImage] = useState(''),
-    dispatch = useDispatch(),
-    handleSubmit=() =>{
-        const userData = {
-            title,
-            author,
-            ISBN,
-            price,
-            image,
-            available:true,
-        }        
-        alert(1)
-        dispatch(AddBooks(userData))
-        localStorage.setItem('userr', JSON.stringify(userData))
-        
-    };
-
+const AddToBook = () => {
+    
+    const Formik = useFormik({
+        initialValues:{
+            title: "",
+            author: "",
+            ISBN: "",
+            image: "",              
+        },
+        validationSchema: Yup.object({
+            title: Yup.string()
+                    .required('Fill in your name'),
+            author:Yup.string()
+                        .required(''),
+            ISBN:Yup.string()
+                    .required('please create your password'),            
+            image:Yup.string()
+                        .required('')
+        }),
+        onSubmit: (value) => {
+            const userData = {
+                title:value.title,
+                author: value.author,
+                ISBN: value.ISBN,
+                image:value.image
+            }
+            Dispatch(AddBooks(userData))
+            // console.log(JSON.stringify(userData))
+        }
+    }),
+    Dispatch = useDispatch();
 
 
     return(
         <>
-           <Header/>
-           <Box as="main" bgColor={'blue.100'}
-                width="100%" height={"37.7rem"}>
-                <Box height="1rem" 
-                width={"100%"} ></Box>
-                <Box as="section"                         
-                    width={"24rem"} 
-                    margin="auto" 
-                    bgColor={'#fff'} 
-                    height="35rem">
-                    <Box width="90%" 
-                        margin={'auto'} mt="1rem">
-                        <form onSubmit={handleSubmit}>
-                        <FormControl isRequired>
-                        <Box height="1rem" width={"100%"} ></Box>                        
+            <Header/>
+            <Box as="main" bgColor={'blue.100'}
+                width="100%" height={"33.7rem"}>
+                    <Box height="1rem" width={"100%"} ></Box>
+                    <Box as="section"                         
+                        width={"24rem"} 
+                        margin="auto" 
+                        bgColor={'#fff'} 
+                        height="30rem">
 
-                        <FormLabel htmlFor='title' mt="1rem">Title</FormLabel>
-                        <Input
-                        id='title'
-                        type='text'
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        required/>
+                    <Box width="90%" margin={'auto'} mt="1rem">
+                    <form onSubmit={Formik.handleSubmit} enctype="multipart/form-data">
+                <FormControl isRequired>
+                <Box height="1rem" width={"100%"} ></Box>                        
+                    <FormLabel htmlFor='title' mt="1rem">Title</FormLabel>
+                    <Input 
+                    type={'text'}
+                    required
+                    onBlur={Formik.handleBlur } 
+                    id='title' 
+                    placeholder='Title'
+                    value ={Formik.values.title}
+                    onChange = {Formik.handleChange} />
 
-                        <FormLabel htmlFor='author' mt="1rem">Author</FormLabel>
-                        <Input
-                        id='author'
-                        type='text'
-                        value={author}
-                        onChange={(e) => setAuthor(e.target.value)}
-                        required/>
+                    <FormLabel htmlFor='ISBN' mt="1rem">ISBN</FormLabel>
+                    <Input
+                    type={'text'}
+                    required
+                    onBlur={Formik.handleBlur } 
+                    id='ISBN' 
+                    placeholder='ISBN'
+                    value ={Formik.values.ISBN}
+                    onChange = {Formik.handleChange}/>
                     
-                        <FormLabel htmlFor='ISBN' mt="1rem">ISBN</FormLabel>
-                        <Input
-                        id='ISBN'
-                        type='text'
-                        value={ISBN}
-                        onChange={(e) => setISBN(e.target.value)}
-                        required/>
+      
+                    <FormLabel htmlFor='text' mt="1rem">Author</FormLabel>
+                    <Input 
+                    type="text"
+                    onBlur={Formik.handleBlur}
+                    required
+                    id='author' 
+                    placeholder='author'
+                    value={Formik.values.author}
+                    onChange ={Formik.handleChange}  />
 
+                    <FormLabel htmlFor='text' mt="1rem">Book Cover</FormLabel>
+                    <Input 
+                    type="file"
+                    onBlur={Formik.handleBlur}
+                    required
+                    id='image' 
+                    placeholder=''
+                    value={Formik.values.image}
+                    onChange ={Formik.handleChange}  />
 
-                        <FormLabel htmlFor='price' mt="1rem">Price</FormLabel>
-                        <Input
-                        id='price'
-                        type='number'
-                        value={price}
-                        onChange={(e) => setPrice(e.target.value)}
-                        required/>
-
-                       <FormLabel htmlFor='image' mt="1rem">Image</FormLabel>
-                        <Input
-                        id='image'
-                        type='file'
-                        onChange={(e) => setImage(e.target.value)}
-                        required/>
+                    <Button
                         
-                        <Button 
-                            mt="1rem"
-                            colorScheme='blue'
-                            type='submit'>
-                            Submit
-                        </Button>
-                    </FormControl>
-                </form>
-            </Box>
-            </Box>  
+                        mt="1rem"
+                        colorScheme='blue'
+                        type='submit'>
+                        Submit
+                    </Button>
+                </FormControl>
+            </form>
+
+                    </Box>
+                    </Box>  
             </Box>
             <Footer/>
         </>
-    )   
+    )
 }
-export default AddBook
+
+export default AddToBook

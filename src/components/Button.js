@@ -4,6 +4,7 @@ import { VscSignIn } from "react-icons/vsc";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logoutUser } from "../features/Authentication/authSlice";
+import { rentBook } from "../features/Books/bookSlice";
 
 
 
@@ -56,4 +57,20 @@ export const AddButton = () => {
             add book
         </Button>
     )
+}
+
+export const RentBook = ({id}) => {
+    const dispatch = useDispatch()
+
+    function rent(){
+        dispatch(rentBook(id))
+    }
+
+    return(
+        <Button onClick={rent}
+            textTransform={'capitalize'}>
+            Rent Book
+        </Button>
+    )
+
 }

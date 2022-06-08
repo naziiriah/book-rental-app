@@ -1,25 +1,40 @@
-import { Box, Icon } from "@chakra-ui/react"
+import { Box, Icon, Spinner } from "@chakra-ui/react"
 import { useSelector } from "react-redux"
 import Footer from "../components/Footer"
 import Header from "../components/Header"
 import {IoIosPerson} from "react-icons/io"
 import { useMyBooks } from "../Hooks/useBooks"
+import { useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 
 
 const UserProfile = () => {
-    
-    const books = useSelector(state => state.books),
-    currentUser = JSON.parse(localStorage.getItem('user')),
-    currentUserProfile = books.books.filter(state => state.user.name === currentUser);
     useMyBooks()
 
+   const {books, isLoading, isError} = useSelector(state => state.books),
+    getUser = JSON.parse(localStorage.getItem('user')),
+    navigate = useNavigate();
+
+    if(books.message){
+            console.log(books)
+    }else{
+        console.log('books')        
+    }
+    if(isLoading){
+        <Spinner/>
+    }
+        useEffect(()=> {
+        if(isError){
+            navigate('/')
+        }
+    },[isError, navigate])
     return(
     <>
         <Header/>
         <Box as="main" 
              width="90%" 
             margin={'auto'} height={'90rem'} 
-            onClick={() => console.log(currentUserProfile)}>
+            >
                 <Box as='section' width={'100%'} 
                     mt="3rem" height={'5rem'}>
                     <Box as="h1" fontSize={'33px'}
@@ -38,8 +53,8 @@ const UserProfile = () => {
                     </Box>
                     <Box width={'26rem'} marginLeft={'4rem'}
                         height={'14rem'} marginTop={'11rem'}>
-                            <Box>Name: {currentUser.name}</Box>
-                            <Box>Email: {currentUser.email}</Box>
+                            <Box>Name: {getUser.name}</Box>
+                            <Box>Email: {getUser.email}</Box>
                         </Box>
                 </Box>
                 <Box as='section' width={'100%'} 

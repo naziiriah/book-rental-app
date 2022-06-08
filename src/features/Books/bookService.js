@@ -41,7 +41,15 @@ const deleteBook = async () =>{
         
     }
 }
-
+ const updateRentStatus = async ( id,token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+    const response = await axios.put(API_URL + `/rent/` + id, config)
+    return response.data
+ }
 
 
 const bookService = {
@@ -49,7 +57,8 @@ const bookService = {
     getMyBooks,
     addBooks, 
     editBook, 
-    deleteBook
+    deleteBook,
+    updateRentStatus
 }
 
 export default bookService

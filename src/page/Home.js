@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react"
+import { Box, Spinner } from "@chakra-ui/react"
 import { useEffect, } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
@@ -11,7 +11,7 @@ import { getAllBooks } from "../features/Books/bookSlice"
 const Home = () => {
     const navigate = useNavigate(),
     dispatch = useDispatch(),
-    bookFile = useSelector((state) => state.books);
+    {books, isLoading} = useSelector((state) => state.books);
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('user'));
         if(!user){
@@ -20,6 +20,9 @@ const Home = () => {
         dispatch(getAllBooks())
     }, [dispatch, navigate])
     
+    if(isLoading){
+        <Spinner/>
+    }
     return(
         <>
             <Header/>
@@ -34,7 +37,7 @@ const Home = () => {
                 </Box>
                 <Box as="section"
                     width="100%"
-                    bgColor="red" height="60rem" onClick={() => console.log(bookFile.books)}>
+                    bgColor="red" height="60rem" onClick={() => console.log(books)}>
                     
                 </Box>
             </Box>
