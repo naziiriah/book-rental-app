@@ -3,10 +3,13 @@ import axios from "axios"
 const API_URL = '/api'
 const getAllBooks = async () =>{
     const response = await axios.get(API_URL )
+    if(response.data){
+        localStorage.setItem('Books', JSON.stringify(response.data))
+    }
     return response.data
 }
 
-const getMyBooks = async (token) =>{
+const getMyBooks = async ({token}) =>{
     const config = {
         headers: {
             Authorization: `Bearer ${token}`
@@ -16,7 +19,7 @@ const getMyBooks = async (token) =>{
     return response.data
 }
 
-const addBooks = async (bookData, token) =>{
+const addBooks = async ({bookData, token}) =>{
     const config = {
         headers: {
             Authorization: `Bearer ${token}`
@@ -28,26 +31,33 @@ const addBooks = async (bookData, token) =>{
     return response.data
 }
 
-const editBook = async () =>{
-    const response = await axios.get(API_URL)
-    if(response.data){
-        
-    }
-}
-
-const deleteBook = async () =>{
-    const response = await axios.get(API_URL)
-    if(response.data){
-        
-    }
-}
- const updateRentStatus = async ( id,token) => {
+const editBook = async ({id, user, token}) =>{
     const config = {
         headers: {
             Authorization: `Bearer ${token}`
         }
     }
-    const response = await axios.put(API_URL + `/rent/` + id, config)
+    const response = await axios.put(API_URL + `/${id}`,config, user)
+    return response.data
+}
+
+const deleteBook = async ({id, token}) =>{
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+    const response = await axios.delete((API_URL + `/${id}`,config))
+    return response.data
+}
+
+ const updateRentStatus = async ({id,token}) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+    const response = await axios.put(API_URL + `/rent/${id}`, config)
     return response.data
  }
 

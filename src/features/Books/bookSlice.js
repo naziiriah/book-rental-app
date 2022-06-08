@@ -54,9 +54,10 @@ export const AddBooks = createAsyncThunk(
 
 export const EditBook = createAsyncThunk(
     'book/editBooks',
-    async(user, thunkAPI) =>{
+    async(user,id, thunkAPI) =>{
       try{
-            return await bookService.editBook()
+            const token = thunkAPI.getState().auth.user.token
+            return await bookService.editBook(id, user, token)
       }
       catch(error){
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString() 
@@ -81,9 +82,10 @@ export const rentBook = createAsyncThunk(
 
 export const DeleteBook = createAsyncThunk(
     'book/deleteBooks',
-    async(user, thunkAPI) =>{
+    async(id, thunkAPI) =>{
       try{
-            return await bookService.deleteBook()
+            const token = thunkAPI.getState().auth.user.token
+            return await bookService.deleteBook(id, token)
       }
       catch(error){
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString() 
@@ -101,34 +103,114 @@ export const BookSlice = createSlice({
     extraReducers: (builders) =>{
         builders
           .addCase(AddBooks.pending, state => {
-              state.isLoading = true
-            })
-            .addCase(AddBooks.fulfilled, (state, action) => {
-              state.isLoading = false
-              state.isSuccess = true
-              state.books.push(action.payload)
-            })
-            .addCase(AddBooks.rejected, (state, action) => {
-              state.isLoading = false
-              state.isError = true
-              state.isSuccess = false
-              state.message = action.payload
-            })
+          state.isLoading = true
+          })
+          .addCase(AddBooks.fulfilled, (state, action) => {
+          state.isLoading = false
+          state.isSuccess = true
+          state.books.push(action.payload)
+          })
+          .addCase(AddBooks.rejected, (state, action) => {
+          state.isLoading = false
+          state.isError = true
+          state.isSuccess = false
+          state.message = action.payload
+          })
           .addCase( getAllBooks.fulfilled, 
-            (state, action )=> {
-              state.isLoading = false
-              state.isError = false
-              state.isSuccess = true
-              state.books = action.payload
-            })
-            .addCase( getMyBooks.fulfilled, 
-              (state, action )=> {
-                state.isLoading = false
-                state.isError = false
-                state.isSuccess = true
-                state.books = action.payload
-              })
-
+          (state, action )=> {
+          state.isLoading = false
+          state.isError = false
+          state.isSuccess = true
+          state.books = action.payload
+          })
+          .addCase( getAllBooks.pending, 
+          (state, action )=> {
+          state.isLoading = true
+          state.isError = false
+          state.isSuccess = false
+          })
+          .addCase( getAllBooks.rejected, 
+          (state, action )=> {
+          state.isLoading = false
+          state.isError = true
+          state.isSuccess = true
+          state.books = action.payload
+          })
+          .addCase( getMyBooks.fulfilled, 
+          (state, action )=> {
+          state.isLoading = false
+          state.isError = false
+          state.isSuccess = true
+          state.books = action.payload
+          })
+          .addCase( getMyBooks.pending, 
+          (state)=> {
+          state.isLoading = true
+          })
+          .addCase( getMyBooks.rejected, 
+          (state, action )=> {
+          state.isLoading = false
+          state.isError = true
+          state.isSuccess = false
+          state.books = action.payload
+          })
+          .addCase( rentBook.fulfilled, 
+          (state, action )=> {
+          state.isLoading = false
+          state.isError = false
+          state.isSuccess = true
+          state.books = action.payload
+          })
+          .addCase( rentBook.pending, 
+          (state)=> {
+          state.isLoading = true
+          })
+          .addCase( rentBook.rejected, 
+          (state, action )=> {
+            state.isLoading = false
+            state.isError = true
+            state.isSuccess = false
+            state.books = action.payload
+          })
+          .addCase( EditBook.fulfilled,
+          (state, action )=> {
+            state.isLoading = false
+            state.isError = false
+            state.isSuccess = true
+            state.books = action.payload
+          })
+          .addCase( EditBook.rejected,
+          (state, action )=> {
+            state.isLoading = false
+            state.isError = true
+            state.isSuccess = false
+            state.books = action.payload
+          })
+          .addCase( EditBook.rejected,
+          (state, action )=> {
+            state.isLoading = false
+            state.isError = true
+            state.isSuccess = false
+            state.books = action.payload
+          })
+          .addCase(DeleteBook.pending, 
+            (state) => {
+              state.isLoading = true
+          })
+          .addCase( DeleteBook.rejected,
+          (state, action )=> {
+            state.isLoading = false
+            state.isError = true
+            state.isSuccess = false
+            state.books = action.payload
+          })
+          .addCase( DeleteBook.fulfilled,
+          (state, action )=> {
+            state.isLoading = false
+            state.isError = false
+            state.isSuccess = true
+            state.books = action.payload
+          })
     }
 })
 

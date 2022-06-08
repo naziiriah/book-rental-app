@@ -39,7 +39,7 @@ export const LogOut = () => {
         navigation('/')
     }    
     return(
-        <Button onClick={LogOut}> 
+        <Button onClick={LogOut} color={'blue.900'}> 
             Log out
             <Icon as ={IoIosLogOut} ml={'.7rem'}/>
         </Button>
@@ -68,6 +68,7 @@ export const RentBook = ({id}) => {
 
     return(
         <Button onClick={rent}
+            colorScheme={'twitter'} 
             textTransform={'capitalize'}>
             Rent Book
         </Button>
