@@ -1,12 +1,8 @@
 import { Box, Image, Spinner, } from "@chakra-ui/react"
-import { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
 import { useLocation} from "react-router-dom"
 import { RentBook } from "../components/Button"
 import Footer from "../components/Footer"
 import Header from "../components/Header"
-import { getAllBooks } from "../features/Books/bookSlice"
-import { useAllBook, } from "../Hooks/useBooks"
 
 
 const Book = () => { 

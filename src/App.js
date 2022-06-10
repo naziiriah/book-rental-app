@@ -7,6 +7,8 @@ import Author from "./page/Authors/Author";
 import Authors from "./page/Authors/Authors";
 import Book from "./page/Book";
 import UpdateBook from "./page/UpdateBook";
+import MyBooks from "./page/MyBooks";
+import UpdateUser from "./page/UpdateUser";
 
 
 function App() {
@@ -21,7 +23,9 @@ function App() {
           <Route path = "/authors/:author" element = {<Author/>}/>
           <Route path = "/authors" element = {<Authors/>}/>
           <Route path = "/library/:books" element = {<Book/>}/>
-          <Route path = "/my-profile/my-books/:books" element = {<UpdateBook/>}/>
+          <Route path = "/my-profile/my-books/:books/update" element = {<UpdateBook/>}/>
+          <Route path = "/my-profile/my-books" element = {<MyBooks/>}/>
+          <Route path = "/my-profile/update" element ={<UpdateUser/>}/>
         </Routes>
     </BrowserRouter>
   );

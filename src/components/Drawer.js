@@ -55,7 +55,7 @@ import {
                   <Box  width={'100%'} height="4rem" pt="1rem"
                         color="blue.300" borderBottomColor={"blue.800"} 
                         borderBottomWidth={'1px'} borderBottomStyle={'solid'}>
-                        <Link href="/:books" fontSize={'23px'}>My recommends</Link>
+                        <Link href="/my-profile/my-books" fontSize={'23px'}>My recommends</Link>
                   </Box>
                     
                     

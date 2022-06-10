@@ -186,12 +186,9 @@ export const BookSlice = createSlice({
             state.isSuccess = false
             state.books = action.payload
           })
-          .addCase( EditBook.rejected,
+          .addCase( EditBook.pending,
           (state, action )=> {
-            state.isLoading = false
-            state.isError = true
-            state.isSuccess = false
-            state.books = action.payload
+            state.isLoading = true
           })
           .addCase(DeleteBook.pending, 
             (state) => {

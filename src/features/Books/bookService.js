@@ -9,17 +9,20 @@ const getAllBooks = async () =>{
     return response.data
 }
 
-const getMyBooks = async ({token}) =>{
+const getMyBooks = async (token) =>{
     const config = {
         headers: {
             Authorization: `Bearer ${token}`
         }
     }
     const response = await axios.get(API_URL+'/mybooks',config)
+    if(response.data){
+        localStorage.setItem('MyBooks', JSON.stringify(response.data))
+    }
     return response.data
 }
 
-const addBooks = async ({bookData, token}) =>{
+const addBooks = async (bookData, token) =>{
     const config = {
         headers: {
             Authorization: `Bearer ${token}`
@@ -31,17 +34,17 @@ const addBooks = async ({bookData, token}) =>{
     return response.data
 }
 
-const editBook = async ({id, user, token}) =>{
+const editBook = async (id, user, token) =>{
     const config = {
         headers: {
             Authorization: `Bearer ${token}`
         }
     }
-    const response = await axios.put(API_URL + `/${id}`,config, user)
+    const response = await axios.put(API_URL + `/${id}/`,config, user)
     return response.data
 }
 
-const deleteBook = async ({id, token}) =>{
+const deleteBook = async (id, token) =>{
     const config = {
         headers: {
             Authorization: `Bearer ${token}`
@@ -51,7 +54,7 @@ const deleteBook = async ({id, token}) =>{
     return response.data
 }
 
- const updateRentStatus = async ({id,token}) => {
+ const updateRentStatus = async (id,token) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`

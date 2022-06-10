@@ -1,4 +1,4 @@
-import { Box, Icon, Spinner } from "@chakra-ui/react"
+import { Box, Icon, Spinner,Image, Link } from "@chakra-ui/react"
 import { useSelector } from "react-redux"
 import Footer from "../components/Footer"
 import Header from "../components/Header"
@@ -6,20 +6,19 @@ import {IoIosPerson} from "react-icons/io"
 import { useMyBooks } from "../Hooks/useBooks"
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+import { DeleteUser, Edituser } from "../components/Button"
 
 
 const UserProfile = () => {
     useMyBooks()
 
-   const {books, isLoading, isError} = useSelector(state => state.books),
+   const { isLoading, isError} = useSelector(state => state.books),
     getUser = JSON.parse(localStorage.getItem('user')),
+    getMyBook =  JSON.parse(localStorage.getItem('MyBooks')),
+    getRentedBooks = getUser.rented,
     navigate = useNavigate();
 
-    if(books.message){
-            console.log(books)
-    }else{
-        console.log('books')        
-    }
+    
     if(isLoading){
         <Spinner/>
     }
@@ -55,30 +54,100 @@ const UserProfile = () => {
                         height={'14rem'} marginTop={'11rem'}>
                             <Box>Name: {getUser.name}</Box>
                             <Box>Email: {getUser.email}</Box>
-                        </Box>
+                    </Box>
+                    <Box width={'10rem'} display={'grid'}>
+                        <Edituser/>    
+                        <DeleteUser/>
+                    </Box>
+                    
                 </Box>
-                <Box as='section' width={'100%'} 
+                <Box as='section' 
+                    width={'90%'} margin={'auto'}
                     mt="3rem" height={'5rem'}>
                     <Box as="h1" fontSize={'33px'}
                         textTransform={'uppercase'}
-                        >Rentals</Box>
+                        >Rented</Box>
+                    
                 </Box>
                 <Box as="section" width={'90%'} 
-                    margin='auto' height="20rem"
+                    margin='auto' 
                     borderBottomColor={'blue.900'}
                     borderBottomStyle={'solid'}
                     borderBottomWidth={'1px'}>
                         <Box as="h2">
-                            Book rented = 0
+                            Book rented
                         </Box>
-                </Box><Box as='section' width={'100%'} 
+                        {
+                            getRentedBooks && getRentedBooks.length> 0 ? 
+                                getRentedBooks.map((state, index) => {
+                                    return (
+                                        <Box as="" 
+                                            key={index} width={'100%'} my={'1rem'}
+                                            transition={'ease-in .3s'} cursor={'pointer'}
+                                            _hover={{color:'blue.300',backgroundColor:'#fff'}}
+                                            textTransform={'capitalize'} fontSize
+                                            backgroundColor={'blue.300'} py="1.9rem"
+                                            color={'#fff'} textAlign={'center'}
+                                            height ="6rem">{state.title}
+                                        </Box>
+                                    )
+                                }) : 
+                                <Box width={'100%'} my={'1rem'}
+                                    transition={'ease-in .3s'} cursor={'pointer'}
+                                    _hover={{color:'blue.300',backgroundColor:'#fff'}}
+                                    textTransform={'capitalize'} fontSize
+                                    backgroundColor={'blue.300'} py="1.9rem"
+                                    color={'#fff'} textAlign={'center'}
+                                    height ="6rem">
+                                        You have not rented any book
+                                </Box>
+                        }
+                </Box>
+                
+                <Box as='section' width={'90%'} margin={'auto'}
                     mt="3rem" height={'5rem'}>
                     <Box as="h1" fontSize={'33px'}
                         textTransform={'uppercase'}
                         >My Books</Box>
-                        
+                        <Box as="h2">
+                            Books added to the Library
+                        </Box>
+                                {
+                                    getMyBook && getMyBook.length > 0 ?
+                                            getMyBook.map((state, index) => {
+                                                return(
+                                                    <Box as='section' key={state._id}
+                                                    my={'1rem'} width={'100%'}
+                                                    height="12rem" pt={'1rem'}
+                                                    textTransform={'capitalize'}
+                                                    borderBottomColor={"blue.300"}
+                                                    borderBottomStyle={'solid'}
+                                                    borderBottomWidth={'.1rem'} display={'flex'}>
+                                                    <Image src={state.image ? state.image : null} 
+                                                        width={'8rem'} height={'8rem'} borderWidth={'.1rem'}
+                                                        borderStyle={'solid'} borderColor={'blue.100'} mt=".4rem"
+                                                    />
+                                                    <Box width={'60%'} mx="1rem" height={'10rem'}>
+                                                        <Box as={'h2'} my=".2rem" textTransform={'capitalize'}>Title: {state.title}</Box>
+                                                        <Box as={'h2'} my=".2rem" textTransform={'capitalize'}>Author: {state.author}</Box>
+                                                                                                                                              
+                                                    </Box>
+                                                </Box>
+                                                )
+                                            }) : 
+                                                <Box width={'100%'} my={'1rem'}
+                                                    transition={'ease-in .3s'} cursor={'pointer'}
+                                                    _hover={{color:'blue.300',backgroundColor:'#fff'}}
+                                                    textTransform={'capitalize'} fontSize
+                                                    backgroundColor={'blue.300'} py="1.9rem"
+                                                    color={'#fff'} textAlign={'center'}
+                                                    height ="6rem">
+                                                    You have not rented any book
+                                                </Box>
+                                }
+                                
                 </Box>
-
+                
         </Box>
         <Footer/>
     </>)

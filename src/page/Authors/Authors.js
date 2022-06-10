@@ -21,8 +21,13 @@ const Authors = () => {
                     (state,index) =>
                            {return(
                             <Box as="section" onClick={() => navigation(`/authors/${state}`)}
-                                key={index}  width={'100%'} my={'1rem'}
-                                height ="10rem" bgColor={'red'} color>{state}
+                                key={index} width={'100%'} my={'1rem'}
+                                transition={'ease-in .3s'} cursor={'pointer'}
+                                _hover={{color:'blue.300',backgroundColor:'#fff'}}
+                                textTransform={'capitalize'} fontSize
+                                backgroundColor={'blue.300'} py="1.9rem"
+                                color={'#fff'} textAlign={'center'}
+                                height ="6rem">{state}
                             </Box>
                             ) })}
         </Box>

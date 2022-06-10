@@ -73,5 +73,66 @@ export const RentBook = ({id}) => {
             Rent Book
         </Button>
     )
+}
 
+export const EditBook = ({title, id}) => {
+    const navigate = useNavigate()
+    return(
+        <Button colorScheme={'twitter'}
+            textTransform={'capitalize'}
+            onClick={
+                () => navigate(`/my-profile/my-books/${title}}/update`, {state:{id: id}})}>
+            edit book details
+        </Button>
+    )
+}
+
+export const Edituser = ({id}) => {
+    const navigation = useNavigate()
+    
+
+    return(
+        <Button onClick={() => navigation('/my-profile/update', {state: {id:id}})}
+            colorScheme={'twitter'}
+            textTransform={'capitalize'}>
+            Edit your Account
+        </Button>
+    )
+
+}
+
+export const DeleteBook = () => {
+    const dispatch = useDispatch(),
+    navigate = useNavigate()
+
+    function deleteBook(){
+        dispatch()
+        navigate('/')
+    }
+    return(
+        <Button 
+            colorScheme={'red'}
+            onClick={deleteBook}
+            
+            >
+            Delete book
+        </Button>
+    )
+}
+
+export const DeleteUser = () => {
+    const dispatch = useDispatch(),
+    navigate = useNavigate()
+
+    function deleteuser(){
+        dispatch()
+        navigate('/')
+    }
+    return(
+        <Button 
+            textTransform={'capitalize'}
+            colorScheme={'red'}>
+            delete user
+        </Button>
+    )
 }
