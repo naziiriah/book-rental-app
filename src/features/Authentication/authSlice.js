@@ -22,6 +22,19 @@ export const registerUser = createAsyncThunk(
         }
     }
 )
+
+export const editUserAccount = createAsyncThunk(
+    'auth/edit',
+    async(userData, thunkAPI) => {
+        try{
+            const token = thunkAPI.getState().auth.user.token
+            return authService.editUserAcc(userData, token)
+        }catch(error){
+            const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString() 
+            return thunkAPI.rejectWithValue(message)
+        }
+    }
+)
 export const loginUser = createAsyncThunk(
     "auth/login",
     async(user, thunkAPI) => {
@@ -44,7 +57,19 @@ export const logoutUser = createAsyncThunk(
         }
     }
 )
+export const deleteUser = createAsyncThunk(
+    'auth/delete',
+    async(user, thunkAPI) => {
+        try{
+            const token = thunkAPI.getState().auth.user.token
+            return authService.deleteuserAccount(token)
 
+        }catch(error){
+            const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString() 
+            return thunkAPI.rejectWithValue(message)
+        }
+    }
+)
 export const AuthSlice = createSlice({
     name:'auth',
     initialState,

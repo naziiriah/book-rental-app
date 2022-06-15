@@ -29,7 +29,7 @@ const addBooks = async (bookData, token) =>{
         }
     }
 
-    const response = await axios.post(API_URL, bookData, config)
+    const response = await axios.post(API_URL, config,bookData )
 
     return response.data
 }

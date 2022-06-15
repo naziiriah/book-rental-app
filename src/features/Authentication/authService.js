@@ -21,12 +21,38 @@ const loginUser = async(userData) => {
     if (response.data){
         localStorage.setItem('user', JSON.stringify(response.data))
     }
+}
+const editUserAcc = async(userData, token) => {
+
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+    const response = await axios.put(API_URL +'edit', config, userData )
+    if(response.data){
+        localStorage.setItem('user', JSON.stringify(response.data))
+    }
+}
+
+const deleteuserAccount = async(token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+    const response = await axios.delete(API_URL + 'delete', config)
+    if(response.data){
+        localStorage.removeItem('user')
+    }
 
 }
 const authService = {
     register,
     loginUser,
-    logout
+    logout,
+    editUserAcc, 
+    deleteuserAccount
 }
 
 export default authService
