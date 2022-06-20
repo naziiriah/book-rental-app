@@ -29,7 +29,7 @@ const editUserAcc = async(userData, token) => {
             Authorization: `Bearer ${token}`
         }
     }
-    const response = await axios.put(API_URL +'edit', config, userData )
+    const response = await axios.put(API_URL +'update',  userData, config )
     if(response.data){
         localStorage.setItem('user', JSON.stringify(response.data))
     }

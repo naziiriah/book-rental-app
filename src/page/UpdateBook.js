@@ -19,7 +19,7 @@ const UpdateBook = () => {
     const navigate = useNavigate(),
     Formik = useFormik({
         initialValues:{
-            name: "",
+            title: "",
             password: "",
             email: "",
         },
@@ -58,15 +58,12 @@ const UpdateBook = () => {
         
 
     }, [ isError, isSuccess, navigate, user])
-
-        if(isLoading){
-            <Spinner/>
-        }
-
-
     return(
         <>
             <Header/>
+            {isError}
+            {isSuccess}
+
             <Box as="main" bgColor={'blue.100'}
                 width="100%" height={"33.7rem"}>
                     <Box height="1rem" width={"100%"} ></Box>

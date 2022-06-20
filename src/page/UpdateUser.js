@@ -2,7 +2,7 @@ import Header from "../components/Header"
 import { Box, FormControl, FormLabel, Input, FormErrorMessage, Button, Spinner } from "@chakra-ui/react"
 import { useFormik } from "formik"
 import * as Yup from "yup"
-import { useEffect } from "react"
+
 import { useSelector, useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { editUserAccount} from "../features/Authentication/authSlice"
@@ -34,14 +34,14 @@ const Updateuser = () => {
             const userData = {
                 name:values.name,
                 email: values.email,
-                password: values.password
+                password: values.password,
+                profilePic:values.profilePic
             }
-            // console.log(JSON.parse(userData))
             Dispatch(editUserAccount(userData))
         }
     }),
     Dispatch = useDispatch(),
-    {user, isError, isSuccess, isLoading } = useSelector((state) => state.auth);
+    { isLoading } = useSelector((state) => state.auth);
 
 
         if(isLoading){

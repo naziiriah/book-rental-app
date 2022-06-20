@@ -22,7 +22,7 @@ function App() {
           <Route path = "/add-book" element = {<AddToBook/>}/>
           <Route path = "/authors/:author" element = {<Author/>}/>
           <Route path = "/authors" element = {<Authors/>}/>
-          <Route path = "/library/:books" element = {<Book/>}/>
+          <Route path = "/home/:books" element = {<Book/>}/>
           <Route path = "/my-profile/my-books/:books/update" element = {<UpdateBook/>}/>
           <Route path = "/my-profile/my-books" element = {<MyBooks/>}/>
           <Route path = "/my-profile/update" element ={<UpdateUser/>}/>

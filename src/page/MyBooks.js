@@ -1,4 +1,5 @@
-import { Box, Image, Link } from "@chakra-ui/react"
+import { Box, Image, Link, Spinner } from "@chakra-ui/react"
+import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { DeleteBook, EditBook } from "../components/Button"
 import Footer from "../components/Footer"
@@ -9,47 +10,54 @@ import { useMyBooks } from "../Hooks/useBooks"
 const MyBooks = () => {
     useMyBooks()
     const Mybook = JSON.parse(localStorage.getItem('MyBooks')),
-    navigation = useNavigate()
-
+    navigation = useNavigate(),
+    {isLoading} = useSelector(state => state.books)
+    
 
     return(
         <>
             <Header/>
-            <Box as="main" 
-                margin={'auto'}
-                width={'80%'}>
-                {
-                    Mybook && Mybook.length > 0? 
-                    Mybook.map((state, id) => {
-                        return(
-                            <Box as='section' key={state._id}
-                                    my={'1rem'} width={'100%'}
-                                    height="12rem" pt={'1rem'}
-                                    textTransform={'capitalize'}
-                                    borderBottomColor={"blue.300"}
-                                    borderBottomStyle={'solid'}
-                                    borderBottomWidth={'.1rem'}
-                                    display={'flex'}>
-                                        <Image src={state.image ? state.image : null} 
-                                            width={'8rem'} height={'8rem'} borderWidth={'.1rem'}
-                                            borderStyle={'solid'} borderColor={'blue.100'} mt=".4rem"
-                                        />
-                                        
-                                        <Box width="80%" height={'100%'} display={'flex'} justifyContent={'space-between'}>
-                                                <Box width={'50%'} mx="1rem" height={'10rem'}>
-                                                    <Box as={'h2'} my=".2rem" textTransform={'capitalize'} onClick={() => navigation(`/library/${state.title}`, {state:{name:state.title, id:state._id }} )}><Link href={`/library/${state.title}`}>Title: {state.title}</Link></Box>
-                                                    <Box as={'h2'} my=".2rem" textTransform={'capitalize'}>Author: {state.author}</Box>
-                                                    <Box as={'h2'} my=".2rem" textTransform={'uppercase'}>isbn: {state.ISBN}</Box>                                             
-                                                    <Box as={'h2'} my=".2rem" textTransform={'uppercase'}>No. of times rented :  {state.rented.length}</Box>
-                                                    {<Box as={'h2'} my=".2rem" textTransform={'uppercase'}>available for rent:  { state.rented.length < 9 ? <Box as="span">Yes</Box>: <Box as="span">No</Box>}</Box>}
-                                                </Box>
-                                                <Box display='grid'width={'20%'}>
-                                                    <EditBook/>
-                                                    <DeleteBook/> 
-                                                </Box>                                                
-                                        </Box>
-                            </Box>
-                        )
+           { isLoading ? 
+                <Spinner/> :
+                <Box as="main" 
+                    margin={'auto'}
+                    width={'80%'}>
+                    {
+                        Mybook && Mybook.length > 0? 
+                        Mybook.map((state, id) => {
+                            return(
+                                <Box as='section' key={state._id}
+                                        my={'1rem'} width={'100%'}
+                                        height="12rem" pt={'1rem'}
+                                        textTransform={'capitalize'}
+                                        borderBottomColor={"blue.300"}
+                                        borderBottomStyle={'solid'}
+                                        borderBottomWidth={'.1rem'}
+                                        display={'flex'}>
+                                            <Image src={state.image ? state.image : null} 
+                                                width={'8rem'} height={'8rem'} borderWidth={'.1rem'}
+                                                borderStyle={'solid'} borderColor={'blue.100'} mt=".4rem"
+                                            />
+                                            
+                                            <Box width="80%" height={'100%'} display={'flex'} justifyContent={'space-between'}>
+                                                    <Box width={'50%'} mx="1rem" height={'10rem'}>
+                                                        <Box as={'h2'} my=".2rem" textTransform={'capitalize'} 
+                                                            onClick={() => navigation(`/home/${state.title}`, 
+                                                                {state:{name:state.title, id:state._id }} )}>
+                                                                    <Link href={`/home/${state.title}`}>Title: {state.title}</Link>
+                                                        </Box>
+                                                        <Box as={'h2'} my=".2rem" textTransform={'capitalize'}>Author: {state.author}</Box>
+                                                        <Box as={'h2'} my=".2rem" textTransform={'uppercase'}>isbn: {state.ISBN}</Box>                                             
+                                                        <Box as={'h2'} my=".2rem" textTransform={'uppercase'}>No. of times rented :  {state.rented.length}</Box>
+                                                        {<Box as={'h2'} my=".2rem" textTransform={'uppercase'}>available for rent:  { state.rented.length < 9 ? <Box as="span">Yes</Box>: <Box as="span">No</Box>}</Box>}
+                                                    </Box>
+                                                    <Box display='grid'width={'20%'}>
+                                                        <EditBook/>
+                                                        <DeleteBook/> 
+                                                    </Box>                                                
+                                            </Box>
+                                </Box>
+                            )
                     }) :
                             <Box as="section" 
                                 width={'100%'} my={'4rem'}
@@ -62,7 +70,8 @@ const MyBooks = () => {
                                 You have added no book to the library
                             </Box>
                 }
-            </Box>
+                </Box>
+            }
             <Footer/>
         </>
     )

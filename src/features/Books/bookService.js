@@ -29,7 +29,7 @@ const addBooks = async (bookData, token) =>{
         }
     }
 
-    const response = await axios.post(API_URL, config,bookData )
+    const response = await axios.post(API_URL,bookData ,config )
 
     return response.data
 }
@@ -50,17 +50,17 @@ const deleteBook = async (id, token) =>{
             Authorization: `Bearer ${token}`
         }
     }
-    const response = await axios.delete((API_URL + `/${id}`,config))
+    const response = await axios.delete(API_URL + `/${id}`,config)
     return response.data
 }
 
- const updateRentStatus = async (id,token) => {
+ const updateRentStatus = async (token) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`
         }
     }
-    const response = await axios.put(API_URL + `/rent/${id}`, config)
+    const response = await axios.put(API_URL + `/rent/1`, config)
     return response.data
  }
 

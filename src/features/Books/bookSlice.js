@@ -71,7 +71,7 @@ export const rentBook = createAsyncThunk(
     async(id, thunkAPI) => {
       try{
         const token = thunkAPI.getState().auth.user.token
-        return await bookService.updateRentStatus(id ,token)
+        return await bookService.updateRentStatus(token)
       }
       catch(error){
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString() 

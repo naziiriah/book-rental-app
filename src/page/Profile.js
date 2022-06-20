@@ -1,4 +1,4 @@
-import { Box, Icon, Spinner,Image, Link } from "@chakra-ui/react"
+import { Box, Icon, Spinner,Image,} from "@chakra-ui/react"
 import { useSelector } from "react-redux"
 import Footer from "../components/Footer"
 import Header from "../components/Header"
@@ -6,7 +6,7 @@ import {IoIosPerson} from "react-icons/io"
 import { useMyBooks } from "../Hooks/useBooks"
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import { DeleteUser, Edituser } from "../components/Button"
+import { DeleteUser } from "../components/Button"
 
 
 const UserProfile = () => {
@@ -55,8 +55,8 @@ const UserProfile = () => {
                             <Box>Name: {getUser.name}</Box>
                             <Box>Email: {getUser.email}</Box>
                     </Box>
-                    <Box width={'10rem'} display={'grid'}>
-                        <Edituser/>    
+                    <Box display={'grid'}>
+                        <></> 
                         <DeleteUser/>
                     </Box>
                     

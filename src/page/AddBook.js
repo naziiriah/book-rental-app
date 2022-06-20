@@ -25,8 +25,6 @@ const AddToBook = () => {
                         .required(''),
             ISBN:Yup.string()
                     .required('please create your password'),            
-            image:Yup.string()
-                        .required('')
         }),
         onSubmit: (value) => {
             const userData = {
@@ -55,7 +53,7 @@ const AddToBook = () => {
                         height="30rem">
 
                     <Box width="90%" margin={'auto'} mt="1rem">
-                    <form onSubmit={Formik.handleSubmit} enctype="multipart/form-data">
+                    <form onSubmit={Formik.handleSubmit} >
                 <FormControl isRequired>
                 <Box height="1rem" width={"100%"} ></Box>                        
                     <FormLabel htmlFor='title' mt="1rem">Title</FormLabel>
@@ -89,18 +87,7 @@ const AddToBook = () => {
                     value={Formik.values.author}
                     onChange ={Formik.handleChange}  />
 
-                    <FormLabel htmlFor='text' mt="1rem">Book Cover</FormLabel>
-                    <Input 
-                    type="file"
-                    onBlur={Formik.handleBlur}
-                    required
-                    id='image' 
-                    placeholder=''
-                    value={Formik.values.image}
-                    onChange ={Formik.handleChange}  />
-
-                    <Button
-                        
+                    <Button          
                         mt="1rem"
                         colorScheme='blue'
                         type='submit'>

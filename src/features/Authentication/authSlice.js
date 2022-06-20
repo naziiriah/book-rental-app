@@ -27,7 +27,7 @@ export const editUserAccount = createAsyncThunk(
     'auth/edit',
     async(userData, thunkAPI) => {
         try{
-            const token = thunkAPI.getState().auth.user.token
+            const token = JSON.parse(localStorage.getItem('user'))
             return authService.editUserAcc(userData, token)
         }catch(error){
             const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString() 
@@ -61,8 +61,8 @@ export const deleteUser = createAsyncThunk(
     'auth/delete',
     async(user, thunkAPI) => {
         try{
-            const token = thunkAPI.getState().auth.user.token
-            return authService.deleteuserAccount(token)
+            const token = JSON.parse(localStorage.getItem('user'))
+            return authService.deleteuserAccount(token.token)
 
         }catch(error){
             const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString() 

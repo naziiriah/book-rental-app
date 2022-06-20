@@ -3,7 +3,7 @@ import { IoIosLogIn, IoIosLogOut} from "react-icons/io";
 import { VscSignIn } from "react-icons/vsc";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { logoutUser } from "../features/Authentication/authSlice";
+import { deleteUser, logoutUser } from "../features/Authentication/authSlice";
 import { rentBook } from "../features/Books/bookSlice";
 
 
@@ -87,20 +87,6 @@ export const EditBook = ({title, id}) => {
     )
 }
 
-export const Edituser = ({id}) => {
-    const navigation = useNavigate()
-    
-
-    return(
-        <Button onClick={() => navigation('/my-profile/update', {state: {id:id}})}
-            colorScheme={'twitter'}
-            textTransform={'capitalize'}>
-            Edit your Account
-        </Button>
-    )
-
-}
-
 export const DeleteBook = () => {
     const dispatch = useDispatch(),
     navigate = useNavigate()
@@ -125,13 +111,13 @@ export const DeleteUser = () => {
     navigate = useNavigate()
 
     function deleteuser(){
-        dispatch()
-        navigate('/')
+        dispatch(deleteUser())
+        navigate('/login')
     }
     return(
         <Button 
             textTransform={'capitalize'}
-            colorScheme={'red'}>
+            colorScheme={'red'} onClick={() => deleteuser()}>
             delete user
         </Button>
     )
