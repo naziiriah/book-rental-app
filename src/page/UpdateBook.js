@@ -11,8 +11,9 @@ import Footer from "../components/Footer"
 import * as Yup from "yup"
 import { useFormik } from "formik"
 import { useDispatch, useSelector } from "react-redux"
-import { useNavigate } from "react-router-dom"
-import { useEffect } from "react"
+import { useLocation, useNavigate } from "react-router-dom"
+import { EditBook } from "../features/Books/bookSlice"
+import { ErrorAlert, SuccessAlert } from "../components/Alert"
 
 
 const UpdateBook = () => {
@@ -20,50 +21,39 @@ const UpdateBook = () => {
     Formik = useFormik({
         initialValues:{
             title: "",
-            password: "",
-            email: "",
+            author: "",
+            ISBN: "",
         },
         validationSchema: Yup.object({
-            name: Yup.string()
+            title: Yup.string()
                     .required('Fill in your name'),
-            email:Yup.string()
-                    .email('Email is required'),
-            password:Yup.string()
-                    .max(13, 'password must be less than 13')
-                    .required('please create your password'),            
+            author:Yup.string()
+                    .required(''),
+            ISBN:Yup.string()
+                    .required(''),            
         }),
         onSubmit: (values) => {
             const userData = {
-                name:values.name,
-                email: values.email,
-                password: values.password
+                title:values.title,
+                author: values.author,
+                ISBN: values.ISBN
             }
-            console.log(JSON.parse(userData))
             
+            Dispatch(EditBook(userData, id))
         }
     }),
     Dispatch = useDispatch(),
-    {user, isError, isSuccess, isLoading } = useSelector((state) => state.auth);
+    location = useLocation(),
+    id = location.state.id,
+    {isError, isSuccess, isLoading } = useSelector((state) => state.books);
 
-
-    useEffect(()=> {
-        if(isError){
-            console.log({'isError': `${isError}`})
-        }
-
-        if(isSuccess || user){
-            navigate('/')
-        }
-
-        
-
-    }, [ isError, isSuccess, navigate, user])
+    
     return(
         <>
             <Header/>
-            {isError}
-            {isSuccess}
-
+            {isError && ErrorAlert}
+            {isSuccess && SuccessAlert}
+            {isLoading && <Spinner/>}
             <Box as="main" bgColor={'blue.100'}
                 width="100%" height={"33.7rem"}>
                     <Box height="1rem" width={"100%"} ></Box>
@@ -75,51 +65,50 @@ const UpdateBook = () => {
 
                     <Box width="90%" margin={'auto'} mt="1rem">
                     <form onSubmit={Formik.handleSubmit}>
-                <FormControl isRequired>
-                <Box height="1rem" width={"100%"} ></Box>                        
-                    <FormLabel htmlFor='name' mt="1rem">Full Name</FormLabel>
-                    <Input 
-                    type={'text'}
-                    required
-                    onBlur={Formik.handleBlur } 
-                    id='name' 
-                    placeholder='Name'
-                    value ={Formik.values.name}
-                    onChange = {Formik.handleChange} />
-                       {Formik.touched.name && Formik.errors.name ? (
-                    <FormErrorMessage> {Formik.errors.name}</FormErrorMessage>) : null}
+                        <FormControl isRequired>
+                        <Box height="1rem" width={"100%"} ></Box>                        
+                            <FormLabel htmlFor='title' mt="1rem">Title</FormLabel>
+                            <Input 
+                            type={'text'}
+                            required
+                            onBlur={Formik.handleBlur } 
+                            id='title' 
+                            placeholder='Title'
+                            value ={Formik.values.title}
+                            onChange = {Formik.handleChange} />
+                            {Formik.touched.name && Formik.errors.title ? (
+                            <FormErrorMessage> {Formik.errors.title}</FormErrorMessage>) : null}
 
-                    <FormLabel htmlFor='email' mt="1rem">Email</FormLabel>
-                    <Input
-                    id='email'
-                    type='email'
-                    onBlur={Formik.handleBlur } 
-                    value={Formik.values.email}
-                    onChange={Formik.handleChange}
-                    required/>
-                    { Formik.touched.email &&!Formik.errors.email ? (null) : (
-                    <FormErrorMessage>{Formik.errors.email}</FormErrorMessage>)}
-      
-                    <FormLabel htmlFor='password' mt="1rem">Password</FormLabel>
-                    <Input 
-                    type="password"
-                    name="password"
-                    onBlur={Formik.handleBlur}
-                    required
-                    value={Formik.values.password}
-                    onChange ={Formik.handleChange}  />
-                    {Formik.touched.password && Formik.errors.password ? 
-                    <FormErrorMessage>{Formik.errors.password}</FormErrorMessage> : null}
+                            <FormLabel htmlFor='author' mt="1rem">Author</FormLabel>
+                            <Input
+                            id='email'
+                            type='email'
+                            onBlur={Formik.handleBlur } 
+                            value={Formik.values.author}
+                            onChange={Formik.handleChange}
+                            required/>
+                            { Formik.touched.author &&!Formik.errors.author ? (null) : (
+                            <FormErrorMessage>{Formik.errors.author}</FormErrorMessage>)}
+            
+                            <FormLabel htmlFor='isbn' mt="1rem">ISBN</FormLabel>
+                            <Input 
+                            type="text"
+                            onBlur={Formik.handleBlur}
+                            required
+                            value={Formik.values.ISBN}
+                            onChange ={Formik.handleChange}  />
+                            {Formik.touched.ISBN && Formik.errors.ISBN ? 
+                            <FormErrorMessage>{Formik.errors.ISBN}</FormErrorMessage> : null}
 
-                    <Button
-                        
-                        mt="1rem"
-                        colorScheme='blue'
-                        type='submit'>
-                        Submit
-                    </Button>
-                </FormControl>
-            </form>
+                            <Button
+                                
+                                mt="1rem"
+                                colorScheme='blue'
+                                type='submit'>
+                                Submit
+                            </Button>
+                        </FormControl>
+                     </form>
 
                     </Box>
                     </Box>  

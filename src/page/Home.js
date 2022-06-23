@@ -27,7 +27,7 @@ const Home = () => {
         <>
             <Header/>
            { isLoading ? 
-            <Spinner/>
+                <Spinner/>
             :   <Box as={'main'} 
                 width="80%" margin="auto">
                     <Box as="aside" 
@@ -45,9 +45,8 @@ const Home = () => {
                                 <Box key={state._id} width='80%' cursor={'pointer'}
                                     height={'12rem'} bgColor="twitter.300" display={'grid'}>
                                              <Box
-                                                width={'90%'} height={'7rem'} borderWidth={'.1rem'}
-                                                borderStyle={'solid'} borderColor={'blue.100'} mx='5%' 
-                                                mt=".4rem" backgroundColor='gray.200' textAlign={'center'}
+                                                width={'90%'} height={'7rem'} mx='5%' 
+                                                mt=".4rem" textAlign={'center'}
                                                 fontSize={'20px'} fontWeight={'bold'} color={'#000'}
                                                 onClick={() => navigation(`/home/${state.title}`, 
                                                     {state:{name:state.title, id:state._id }})}>
@@ -55,14 +54,19 @@ const Home = () => {
                                             </Box>
                                             
                                             <Box width="100%" display={'grid'}>
-                                                <Box as={'h2'} my=".1rem" textTransform={'capitalize'} 
+                                                <Box my=".1rem" textTransform={'capitalize'} 
                                                 onClick={() => navigation(`/home/${state.title}`, 
                                                     {state:{name:state.title, id:state._id }} )}>
-                                                        <Link textAlign={'end'} width={'100%'} m="auto"
-                                                         href={`/home/${state.title}`}>{state.title}</Link>
+                                                        <Box as={'h2'} m={'auto'} my=".1rem" 
+                                                            _hover={{'color':"#fff"}} transition='ease-in .5s'
+                                                            width={'100%'} textAlign={'center'} 
+                                                            textTransform={'capitalize'}>
+                                                                    {state.title}
+                                                        </Box>                                                            
                                                 </Box>
                                                 <Box as={'h2'} m={'auto'} my=".1rem" 
                                                     width={'100%'} textAlign={'center'} 
+                                                    _hover={{'color':"#fff"}} transition='ease-in .5s'
                                                     textTransform={'capitalize'}>
                                                          {state.author}
                                                 </Box>                                              

@@ -4,7 +4,7 @@ import { VscSignIn } from "react-icons/vsc";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { deleteUser, logoutUser } from "../features/Authentication/authSlice";
-import { rentBook } from "../features/Books/bookSlice";
+import { rentBook, DeleteMyBook } from "../features/Books/bookSlice";
 
 
 
@@ -87,13 +87,12 @@ export const EditBook = ({title, id}) => {
     )
 }
 
-export const DeleteBook = () => {
-    const dispatch = useDispatch(),
-    navigate = useNavigate()
+export const DeleteBook = ({id}) => {
+    const dispatch = useDispatch()
 
     function deleteBook(){
-        dispatch()
-        navigate('/')
+        dispatch(DeleteMyBook(id))
+        window.location.reload()
     }
     return(
         <Button 

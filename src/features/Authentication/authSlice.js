@@ -70,6 +70,20 @@ export const deleteUser = createAsyncThunk(
         }
     }
 )
+
+export const getCurrentUser = createAsyncThunk(
+    'auth/user',
+    async(user, thunkAPI) => {
+        try{
+            const token = JSON.parse(localStorage.getItem('user'))
+            return authService.CurrentUser(token)
+        } 
+        catch(error){
+            const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString() 
+            return thunkAPI.rejectWithValue(message)
+        }
+    }
+)
 export const AuthSlice = createSlice({
     name:'auth',
     initialState,
@@ -121,6 +135,23 @@ export const AuthSlice = createSlice({
             state.isLoading =  false
             state.message =  ""
             state.user = null
+        })
+        .addCase(getCurrentUser.rejected, (state, action) => {
+            state.isError =true
+            state.isLoading =  false
+            state.message = action.payload
+            state.user = null
+        })
+        .addCase(getCurrentUser.fulfilled, (state, action) => {
+            state.isError =false
+            state.isLoading =  false
+            state.isSuccess = true
+            state.user= action.payload
+        })
+        .addCase(getCurrentUser.pending, state => {
+            state.isError = false
+            state.isSuccess = false
+            state.isLoading = true
         })
     }
 })

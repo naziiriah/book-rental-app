@@ -47,7 +47,7 @@ const Author = () => {
                                             borderStyle={'solid'} borderColor={'blue.100'} mt=".4rem"
                                         />
                                         <Box width={'80%'} mx="1rem" height={'10rem'}>
-                                            <Box as={'h2'} my=".2rem" textTransform={'capitalize'} onClick={() => navigation(`/library/${state.title}`, {state:{name:state.title, id:state._id }} )}><Link href={`/library/${state.title}`}>Title: {state.title}</Link></Box>
+                                            <Box as={'h2'} my=".2rem" textTransform={'capitalize'} onClick={() => navigation(`/home/${state.title}`, {state:{name:state.title, id:state._id }} )}><Link href={`/home/${state.title}`}>Title: {state.title}</Link></Box>
                                             <Box as={'h2'} my=".2rem" textTransform={'capitalize'}>Author: {state.author}</Box>
                                             <Box as={'h2'} my=".2rem" textTransform={'uppercase'}>isbn: {state.ISBN}</Box>                                             
                                             <Box as={'h2'} my=".2rem" textTransform={'uppercase'}>No. of times rented :  {state.rented.length}</Box>

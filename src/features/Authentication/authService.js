@@ -47,12 +47,27 @@ const deleteuserAccount = async(token) => {
     }
 
 }
+
+const CurrentUser =  async (token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+
+    const response = await axios.get(API_URL+ 'user', config)
+    if(response.data){ 
+        localStorage.setItem('user', JSON.stringify(response.data))
+    }
+    return response.data
+}
 const authService = {
     register,
     loginUser,
     logout,
     editUserAcc, 
-    deleteuserAccount
+    deleteuserAccount,
+    CurrentUser
 }
 
 export default authService

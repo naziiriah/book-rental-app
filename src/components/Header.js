@@ -1,11 +1,13 @@
-import { Box, Icon, Text } from "@chakra-ui/react"
+import { Box, Icon, } from "@chakra-ui/react"
 import { Login, LogOut, SignUp } from "./Button"
 import { GiBookshelf } from 'react-icons/gi'
 import MenuSlider from "./Drawer"
+import { useNavigate } from "react-router-dom"
 
 const Header = () => {
 
-    const user = JSON.parse(localStorage.getItem('user'))
+    const user = JSON.parse(localStorage.getItem('user')),
+    navigate = useNavigate()
 
     return(
         <Box as="header"
@@ -22,19 +24,23 @@ const Header = () => {
                     <MenuSlider/>
                 </Box>
 
-                <Box display={'flex'}>
+                <Box display={'flex'}
+                    cursor={'pointer'}
+                    onClick={() => navigate('/') }>
                     <Icon fontSize ={'2.5rem'}
                     mt={"-0.2rem"}
                     color={'#fff'}
                     as={GiBookshelf}/>
                     <Box as ={'h1'} 
+                        cursor={'pointer'}
+                        onClick={() => navigate('/') }
                         textTransform={'uppercase'}
                         color={'#fff'}
                         textAlign="center"
                         ml="1rem"
                         height={'4rem'}
                         fontSize={'23px'}>
-                        The great Book Shelf<Text as ={'span'} textTransform={'lowercase'}>.com</Text>
+                        The great Book Shelf
                 </Box>
                 </Box>
                 

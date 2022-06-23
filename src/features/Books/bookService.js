@@ -1,6 +1,7 @@
 import axios from "axios"
 
 const API_URL = '/api'
+
 const getAllBooks = async () =>{
     const response = await axios.get(API_URL )
     if(response.data){
@@ -54,13 +55,13 @@ const deleteBook = async (id, token) =>{
     return response.data
 }
 
- const updateRentStatus = async (token) => {
+ const updateRentStatus = async (id,token) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`
         }
     }
-    const response = await axios.put(API_URL + `/rent/1`, config)
+    const response = await axios.put(API_URL + `/rent/${id}`, id,config)
     return response.data
  }
 

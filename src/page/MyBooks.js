@@ -52,8 +52,7 @@ const MyBooks = () => {
                                                         {<Box as={'h2'} my=".2rem" textTransform={'uppercase'}>available for rent:  { state.rented.length < 9 ? <Box as="span">Yes</Box>: <Box as="span">No</Box>}</Box>}
                                                     </Box>
                                                     <Box display='grid'width={'20%'}>
-                                                        <EditBook/>
-                                                        <DeleteBook/> 
+                                                        <DeleteBook id={state._id}/> 
                                                     </Box>                                                
                                             </Box>
                                 </Box>

@@ -1,15 +1,22 @@
 import {
     Alert,
     AlertIcon,
-    AlertTitle,
-    AlertDescription,
   } from '@chakra-ui/react'
 
-  export const ErrorAlert = () => {
+  export const ErrorAlert = ({ text}) => {
     return(
-        <Alert status='error'>
+        <Alert status='error' transition={'ease-out 1s'}>
             <AlertIcon />
-            There was an error processing your request
+            {text}
         </Alert>        
+    )
+  }
+
+  export const SuccessAlert = ({text}) => {
+    return(
+        <Alert status='success' transition={'ease-out 1s'}>
+          <AlertIcon />
+          {text}
+        </Alert>
     )
   }

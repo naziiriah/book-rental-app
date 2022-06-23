@@ -71,7 +71,7 @@ export const rentBook = createAsyncThunk(
     async(id, thunkAPI) => {
       try{
         const token = thunkAPI.getState().auth.user.token
-        return await bookService.updateRentStatus(token)
+        return await bookService.updateRentStatus(id,token)
       }
       catch(error){
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString() 
@@ -80,7 +80,7 @@ export const rentBook = createAsyncThunk(
     }
 )
 
-export const DeleteBook = createAsyncThunk(
+export const DeleteMyBook = createAsyncThunk(
     'book/deleteBooks',
     async(id, thunkAPI) =>{
       try{
@@ -164,6 +164,7 @@ export const BookSlice = createSlice({
           .addCase( rentBook.pending, 
           (state)=> {
           state.isLoading = true
+          state.isSuccess = false
           })
           .addCase( rentBook.rejected, 
           (state, action )=> {
@@ -187,21 +188,21 @@ export const BookSlice = createSlice({
             state.books = action.payload
           })
           .addCase( EditBook.pending,
-          (state, action )=> {
+          (state)=> {
             state.isLoading = true
           })
-          .addCase(DeleteBook.pending, 
+          .addCase(DeleteMyBook.pending, 
             (state) => {
               state.isLoading = true
           })
-          .addCase( DeleteBook.rejected,
+          .addCase( DeleteMyBook.rejected,
           (state, action )=> {
             state.isLoading = false
             state.isError = true
             state.isSuccess = false
             state.books = action.payload
           })
-          .addCase( DeleteBook.fulfilled,
+          .addCase( DeleteMyBook.fulfilled,
           (state, action )=> {
             state.isLoading = false
             state.isError = false

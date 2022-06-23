@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { loginUser, registerUser, reset } from "../features/Authentication/authSlice"
 import Footer from "../components/Footer"
+import { ErrorAlert, SuccessAlert } from "../components/Alert"
 
 
 
@@ -55,14 +56,12 @@ export const Setuser = () => {
 
     }, [Dispatch, isError, isSuccess, navigate, user])
 
-        if(isLoading){
-            <Spinner/>
-        }
-
-
     return(
         <>
             <Header/>
+            {isLoading && <Spinner/>}
+            {isError && <ErrorAlert/>}
+            {isSuccess && <SuccessAlert/>}
             <Box as="main" bgColor={'blue.100'}
                 width="100%" height={"33.7rem"}>
                     <Box height="1rem" width={"100%"} ></Box>
@@ -167,16 +166,17 @@ export const Loginuser = () => {
 
     }, [Dispatch, isError, isSuccess, navigate, user])
 
-    if(isLoading){
-        <Spinner/>
-    }
+
 
 
     return(
         <>
-           <Header/>
+           <Header/>           
            <Box as="main" bgColor={'blue.100'}
                 width="100%" height={"33.7rem"}>
+                    {isLoading && <Spinner/>}
+                    {isError && <ErrorAlert/>}
+                    {isSuccess && <SuccessAlert/>}
                     <Box height="1rem" width={"100%"} ></Box>
                     <Box as="section"                         
                         width={"24rem"} 

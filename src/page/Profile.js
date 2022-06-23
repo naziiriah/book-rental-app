@@ -3,7 +3,7 @@ import { useSelector } from "react-redux"
 import Footer from "../components/Footer"
 import Header from "../components/Header"
 import {IoIosPerson} from "react-icons/io"
-import { useMyBooks } from "../Hooks/useBooks"
+import { useMyBooks, useUser } from "../Hooks/useBooks"
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { DeleteUser } from "../components/Button"
@@ -11,6 +11,7 @@ import { DeleteUser } from "../components/Button"
 
 const UserProfile = () => {
     useMyBooks()
+    useUser()
 
    const { isLoading, isError} = useSelector(state => state.books),
     getUser = JSON.parse(localStorage.getItem('user')),

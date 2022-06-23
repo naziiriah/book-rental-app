@@ -1,5 +1,6 @@
 import { useEffect} from "react"
 import { useDispatch} from "react-redux"
+import { getCurrentUser } from "../features/Authentication/authSlice"
 import { getAllBooks, getMyBooks } from "../features/Books/bookSlice"
 
 export const useAllBook = () => {
@@ -16,3 +17,11 @@ export const useMyBooks = () => {
     }, [dispatch])
 }
 
+export const useUser = () => {
+
+    const dispatch = useDispatch(),
+    user = JSON.parse(localStorage.getItem('user'));
+    useEffect(() => {
+        dispatch(getCurrentUser(user.token))
+    })
+}
